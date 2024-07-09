@@ -1,0 +1,53 @@
+<template>
+    <article>
+        <div class="article-wrapper">
+            <figure>
+                <img src={trainingPic} alt="Training" />
+                <!-- <img src={event.Image_Url__c} alt="Training" /> -->
+            </figure>
+            <div class="article-body">
+                <h2>{event.Subject}</h2>
+                <!-- <p>
+                    {event.Description}
+                </p> -->
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:clock" size="small" alternative-text="Time"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        Start : <lightning-formatted-date-time value={event.StartDateTime} year="numeric" month="short"
+                            day="numeric" hour="2-digit" minute="2-digit" hour12="true" class="date-text">
+                        </lightning-formatted-date-time>
+                        <br>
+                        End : <lightning-formatted-date-time value={event.EndDateTime} year="numeric" month="short"
+                            day="numeric" hour="2-digit" minute="2-digit" hour12="true" class="date-text">
+                        </lightning-formatted-date-time>
+                    </span>
+                </div>
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:checkin" size="small"
+                        alternative-text="Location"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        {event.Location}
+                    </span>
+                </div>
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:user" size="small" alternative-text="User"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        <!-- {event.Who.Name} -->
+                        {event.whoName}
+                    </span>
+                </div>
+                <div style="text-align: end;">
+                    <a href="#" class="read-more" onclick={onButtonClick}>
+                        Read more <span class="sr-only">about this is some title</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </article>
+</template>

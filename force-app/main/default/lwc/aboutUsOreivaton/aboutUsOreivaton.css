@@ -1,0 +1,135 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 45%;
+    padding: 50px 0;
+}
+.line{
+    font-size: 40px;
+    text-transform: uppercase;
+    margin-top: -1rem;
+    transition: all 0.5s;
+    height: auto;
+
+}
+.trigger{
+    color: #24b08b;
+}
+span{
+    display: inline-flex;
+    font-weight: 600;
+}
+.animate{
+    color: #485372;
+    overflow: hidden;
+    transition: ease-in-out 0.5s;
+    letter-spacing: -1em;
+    
+}
+
+.animate-visible {
+    letter-spacing: 0;
+}
+.animate-hidden {
+    letter-spacing: -1em;
+}
+
+.text-holder{
+    margin-top: 2rem;
+    display:flex;
+    align-items: center;
+    position: absolute;
+    visibility: hidden;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    transition-delay: 0.5s;
+}
+.title{
+    color: #485372;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.description{
+    flex: 1;
+    font-size: 12px;
+    width: 700px;
+}
+
+.child-container:hover .text-holder {
+    visibility: visible;
+    opacity: 1;
+}
+.child-container:hover{
+    margin-bottom: 2rem;
+}
+.child-container:hover .line{
+    transform: scale(0.37);
+    animation-name: up;
+    animation-duration: 0.5s;
+}
+.child-container:hover .animate{
+    letter-spacing: 0;
+}
+.child-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.component{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.component-title{
+    font-size: 26px;
+    font-weight: 600;
+    color: #24b08b;
+    padding-bottom: 2rem;
+    text-align: center;
+    margin-top: 4rem;
+
+}
+.description-main{
+    font-size: 14px;
+    text-align: justify;
+    width: 40%;
+}
+.bg-styling{
+    width: 200px;
+    height: auto;
+    position: absolute;
+}
+.top{
+    margin-top: -8rem;
+    margin-left: 31%;
+}
+.element-styling1{
+    background: radial-gradient(circle, #24B08B 25%, transparent 26%) 0% 0% / 3em 3em #ffffff00;
+    opacity: 0.3;
+    background-size: 25px 25px;
+    position: absolute;
+    z-index: 1;
+    width: 150px;
+    height: 100px;
+}
+.element-styling2{
+    background: radial-gradient(circle, #24B08B 25%, transparent 26%) 0% 0% / 3em 3em #ffffff00;
+    opacity: 0.8;
+    background-size: 20px 20px;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 77px;
+    margin-top: 38px;
+    margin-left: 63px;
+}
+/* @keyframes up {
+    to{
+        margin-top: -2.7rem;
+    }
+} */

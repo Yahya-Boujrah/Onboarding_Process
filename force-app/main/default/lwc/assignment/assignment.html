@@ -1,0 +1,181 @@
+<template>
+    <div horizontal-align="spread" class=" slds-var-m-bottom_x-large">
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_3-of-3 slds-var-p-around_small">
+                <div class="slds-expression section-border">
+                    <div
+                        class="slds-grid slds-p-vertical_x-small slds-grid_vertical-align-center bloc-entete custom-box">
+                        <!-- <div class="slds-col slds-grow-none">
+                            <lightning-icon icon-name="standard:assignment">
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-col slds-grow-none slds-col_bump-right">
+                            <div>
+                                <span class="slds-expression__title" style="vertical-align: middle">Assignments</span>
+                            </div>
+                        </div> -->
+                        <div class="slds-m-around_medium logo" style="width: 250px;">
+                            <img src={assignmentLogo} alt="Assignments">
+                        </div>
+
+                    </div>
+                    <div>
+                        <template lwc:if={loading}>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </template>
+                        <template lwc:else>
+                            <div class="slds-col slds-size_3-of-3 slds-var-p-around_small slds-grid grid-gutters slds-var-m-bottom_x-large"
+                                style=" background-color: #F6F6F6;">
+                                <lightning-layout style="width: inherit;  align-items: center;  ">
+                                    <lightning-layout-item flexibility="auto, " padding="around-small">
+                                        <div class="slds-col searchBox">
+                                            <lightning-combobox name="type" label="Assignment Type"
+                                                placeholder="Select Type" options={assignmentOptions}
+                                                onchange={handleTypeChange} value={selectedType}
+                                                class="slds-var-m-bottom_small"></lightning-combobox>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item flexibility="auto, no-grow" lwc:if={isTraining}>
+                                        <div class="slds-col" style="margin-top: 1rem;">
+                                            <lightning-icon icon-name="utility:arrow_right" size="small">
+                                            </lightning-icon>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item flexibility="auto" padding="around-small">
+                                        <div class="slds-col searchBox">
+                                            <templtae lwc:if={isTraining}>
+                                                <lightning-record-picker label="Training Module"
+                                                    placeholder="Search for a Training Module"
+                                                    object-api-name="Training_Module__c" onchange={handleTrainingChange}
+                                                    filter={trainingFilters} matching-info={matchingInfo}
+                                                    display-info={displayInfo} class="slds-m-bottom_small" required>
+                                                </lightning-record-picker>
+                                            </templtae>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </template>
+                        <template lwc:if={loadAccounts}>
+                            <div class="custom-box slds-var-m-vertical_large slds-var-p-around_medium">
+                                <h2 class="slds-var-p-bottom_medium slds-text-heading_medium"
+                                    style="font-weight: 400; background-color: #F6F6F6;">
+                                    Record details</h2>
+
+                                <template lwc:if={isFormation}>
+                                    <lightning-record-form object-api-name={trainingObjectApiName}
+                                        record-id={trainingModuleId} fields={FIELDS} columns="2" mode="readonly">
+                                    </lightning-record-form>
+                                </template>
+                                <template lwc:else>
+                                    <lightning-record-form object-api-name={trainingObjectApiName}
+                                        record-id={trainingModuleId} fields={FIELDS1} columns="1" mode="readonly">
+                                    </lightning-record-form>
+                                </template>
+                            </div>
+                            <div class="custom-box">
+
+                                <div class="slds-var-p-bottom_small slds-text-heading_medium"
+                                    style="display:flex; justify-content: space-between">
+                                    <div style="font-weight: 400; background-color: #F6F6F6;">
+                                        <span lwc:if={isFormation}>Choose Associates or new Consultants</span>
+                                        <span lwc:else>Choose Associates</span>
+                                        <sup><lightning-helptext
+                                                content="The Choosen accounts will be assigned to the choosen training."></lightning-helptext></sup>
+                                    </div>
+
+                                    <lightning-button-icon icon-name="utility:refresh" variant="border-filled"
+                                        alternative-text="Reload" class="slds-var-m-left_xx-small" title="Reload"
+                                        slot="actions" onclick={handleReload}></lightning-button-icon>
+
+                                </div>
+
+                                <lightning-tabset active-tab-value={selectedTab}>
+                                    <lightning-tab label="Associates" value="1">
+                                        <div style="height: 200px;">
+                                            <template lwc:if={internsNotExist}>
+                                                <div class="styleImageNoData">
+                                                    <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                                                </div>
+                                            </template>
+                                            <template lwc:else>
+                                                <lightning-datatable id="my-datatable-ro1" key-field="Id" data={interns}
+                                                    lwc:ref="table1" columns={internColumns}
+                                                    onrowselection={handleSelectedInterns} how-row-number-column
+                                                    suppress-bottom-bar>
+                                                </lightning-datatable>
+                                            </template>
+
+                                        </div>
+                                    </lightning-tab>
+                                    <template lwc:if={isFormation}>
+                                        <lightning-tab label="Consultants" value="2">
+                                            <div style="height: 200px;">
+                                                <template lwc:if={consultantsNotExist}>
+                                                    <div class="styleImageNoData">
+                                                        <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                                                    </div>
+                                                </template>
+                                                <template lwc:else>
+                                                    <lightning-datatable id="my-datatable-ro" key-field="Id"
+                                                        data={consultants} lwc:ref="table2" columns={consultantColumns}
+                                                        onrowselection={handleSelectedConsultants} how-row-number-column
+                                                        suppress-bottom-bar>
+                                                    </lightning-datatable>
+                                                </template>
+
+                                            </div>
+                                        </lightning-tab>
+                                    </template>
+
+                                    <div class="slds-col slds-align_absolute-center">
+                                        <lightning-button label="Confirm" variant="brand" onclick={showModalBox}
+                                            icon-name="utility:check" disabled={isBtnAssignDisabled}></lightning-button>
+                                    </div>
+                                </lightning-tabset>
+                            </div>
+                        </template>
+                        <template lwc:elseif={loadProjectAssignment}>
+                            <c-assign-project></c-assign-project>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal popUp start -->
+        <template if:true={openPopUp}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={hideModalBox}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Confirm Assignments
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1"
+                        style="text-align: center;">
+                        <p lwc:if={isFormation}>The selected members are going to be invited to the Specified formation.
+                        </p>
+                        <p lwc:else>The selected members are going to be assigned to the Specified training.
+                        </p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={hideModalBox}
+                            title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={confirmTrainingAssignment}
+                            title="Confirm">Confirm</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- modal end -->
+    </div>
+</template>

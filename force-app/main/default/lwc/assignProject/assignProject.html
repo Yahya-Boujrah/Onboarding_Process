@@ -1,0 +1,142 @@
+<template>
+    <template lwc:if={isLoading}>
+        <div style="width:100%;height:200px;display:flex;justify-content:center;align-items:center">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <template lwc:else>
+        <lightning-layout vertical-align="stretch" multiple-rows="true" horizontal-align="spread" class="x-large">
+            <lightning-layout-item flexibility="auto,no-grow" padding="around-small" class="custom-box" style="width: 15%;">
+                <div class="slds-var-m-around_medium ">
+                    <h3 class="card-title">Associates</h3>
+                    <template lwc:if={internsExist}>
+                        <template for:each={interns.records} for:item="intern">
+                            <div key={intern.Id} class="slds-var-m-bottom_x-large slds-text-link_reset"
+                                data-id={intern.Id} data-role="intern" draggable="true" id={intern.Id}
+                                ondragstart={handleDragStart} ondragend={handleDragEnd} onclick={goToRecordPage}>
+                                <c-card intern={intern}></c-card>
+                            </div>
+                        </template>
+                        <c-paginator page-number={internsPageNumber} page-size={interns.pageSize}
+                            total-item-count={interns.totalItemCount} data-id="intern" onprevious={handlePreviousPage}
+                            onnext={handleNextPage}></c-paginator>
+                    </template>
+                    <template lwc:else>
+                        <div class="styleImageNoData">
+                            <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                        </div>
+                    </template>
+
+
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto,no-grow" padding="around-small" class="custom-box"
+                style="width: 46%; margin-top:2rem;">
+
+                <form lwc:ref="form" onsubmit={createMentorshipProgram}>
+                    <div data-role="drop-intern" class="drop-zone" ondragenter={handleDragEnter}
+                        ondragover={handleDragOver} ondragleave={handleDragLeave} ondrop={handleDrop}>
+                        <!-- <lightning-record-picker label="Intern" placeholder="Search Or Drag an Intern"
+                        object-api-name="Account" value={assignment.associateId} onchange={handleInternChange} filter={internFilter} 
+                         required>
+                    </lightning-record-picker> -->
+                        <c-lwc-multiple-lookup data-type="intern" object-name="Account" label="Associates"
+                            placeholder="Search Or Drag an Associate" icon-name="standard:avatar" required
+                            filters={internFilter} onselected={selectedInterns}></c-lwc-multiple-lookup>
+
+                    </div>
+
+                    <div data-role="drop-mentor" class="drop-zone" ondragenter={handleDragEnter}
+                        ondragover={handleDragOver} ondragleave={handleDragLeave} ondrop={handleDrop} style="">
+                        <!-- <lightning-record-picker label="Mentor" placeholder="Search Or Drag a Mentor"
+                        object-api-name="Account" value={assignment.mentorId} onchange={handleMentorChange}
+                        filter={mentorFilter} required>
+                    </lightning-record-picker> -->
+                        <c-lwc-multiple-lookup data-type="mentor" object-name="Account" label="Mentors"
+                            placeholder="Search Or Drag a Mentor" icon-name="standard:person_account" required
+                            filters={mentorFilter} onselected={selectedMentors}></c-lwc-multiple-lookup>
+
+                    </div>
+
+                    <div data-role="drop-project" class="drop-zone" style="" ondragenter={handleDragEnter}
+                        ondragover={handleDragOver} ondragleave={handleDragLeave} ondrop={handleDrop}>
+                        <lightning-record-picker lwc:ref="project_picker" label="Project"
+                            placeholder="Search Or Drag a Project" object-api-name="Project__c"
+                            value={assignment.projectId} onchange={handleProjectChange} filter={projectFilter} required>
+                        </lightning-record-picker>
+
+                    </div>
+                    <lightning-textarea name="description" label="Description" value={assignment.description}
+                        onchange={handleDescChange}></lightning-textarea>
+                    <div class="slds-var-m-top_small slds-align_absolute-center">
+                        <lightning-button variant="Neutral" label="Cancel" class="slds-var-m-right_small" type="reset"
+                            onclick={handleResetForm}>
+                        </lightning-button>
+                        <lightning-button variant="brand" label="Insert & New" type="submit"></lightning-button>
+                    </div>
+                </form>
+
+            </lightning-layout-item>
+
+            <lightning-layout-item flexibility="auto,no-grow" padding="around-small" class="custom-box"
+                style="width: 33%;">
+
+                <div class="slds-var-m-around_medium slds-text-link_reset">
+                    <h3 class="card-title">Consultants</h3>
+                    <div class="table">
+                        <template lwc:if={consultantsExist}>
+                            <template for:each={consultants.records} for:item="item">
+                                <div key={item.Id} class="rows slds-var-m-bottom_medium" data-id={item.Id}
+                                    data-role="mentor" draggable="true" id={item.Id} ondragstart={handleDragStart}
+                                    ondragend={handleDragEnd} onclick={goToRecordPage}>
+                                    <div class="item">{item.Name}</div>
+                                    <div class="item">{item.Matricule__c}</div>
+                                    <div class="item" style="font-weight:bold">{item.Level__c}</div>
+                                </div>
+
+                            </template>
+                            <c-paginator page-number={mentorsPageNumber} page-size={consultants.pageSize}
+                                total-item-count={consultants.totalItemCount} data-id="employee"
+                                onprevious={handlePreviousPage} onnext={handleNextPage}></c-paginator>
+                        </template>
+                        <template lwc:else>
+                            <div class="styleImageNoData">
+                                <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-var-m-around_medium slds-text-link_reset">
+                    <h3 class="card-title">Projects</h3>
+                    <div class="table">
+                        <template lwc:if={projectsExist}>
+
+                            <template for:each={projects.records} for:item="proj">
+                                <div key={proj.Id} class="rows slds-var-m-bottom_medium" data-id={proj.Id}
+                                    data-role="project" draggable="true" id={proj.Id} ondragstart={handleDragStart}
+                                    ondragend={handleDragEnd} onclick={goToRecordPage}>
+                                    <div class="item">{proj.Name}</div>
+                                    <div class="item1">{proj.StartDate__c}</div>
+                                    <div class="item">{proj.Status__c}</div>
+                                </div>
+
+                            </template>
+                            <c-paginator page-number={projectsPageNumber} page-size={projects.pageSize}
+                                total-item-count={projects.totalItemCount} data-id="project"
+                                onprevious={handlePreviousPage} onnext={handleNextPage}></c-paginator>
+                        </template>
+                        <template lwc:else>
+                            <div class="styleImageNoData">
+                                <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+
+</template>

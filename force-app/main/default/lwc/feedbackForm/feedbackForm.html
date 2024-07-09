@@ -1,0 +1,105 @@
+<template>
+    <div class="main">
+        <!-- <h3>Feedbacks on Event</h3> -->
+        <form onsubmit={handleSubmitFeedback} class="feedback-form">
+            <lightning-textarea lwc:ref="feedbackInput" max-length="1500" name="feedback"
+                placeholder="Give you Feedback here..." onchange={habndleFeedbackChange} variant="label-hidden"
+                class="textarea" required></lightning-textarea>
+            <button class="submit-button">Submit Feedback</button>
+        </form>
+
+
+        <template lwc:if={loading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <template lwc:else>
+            <template lwc:if={feedbacksExist}>
+
+                <section class="feedbacks">
+                    <template for:each={allFeedbacks} for:item="data">
+                        <div key={data.Id}>
+                            <div class="infos">
+                                <span style="font-weight: bold;">@{data.Associate__r.Name}</span>
+
+                                <span style="font-size: 12px;"> <lightning-formatted-date-time value={data.CreatedDate}
+                                        day="2-digit" month="2-digit" year="2-digit"
+                                        weekday="short"></lightning-formatted-date-time></span>
+                            </div>
+                            <div class="feedback">
+                                <span class="comment">
+                                    <lightning-icon icon-name="standard:avatar" alternative-text="user" size="small"
+                                        title="large size" variant="inverse"></lightning-icon>
+
+                                    <p>{data.Feedback__c}</p>
+                                </span>
+
+                                <span lwc:if={data.createdByCurrentUser} class="icons">
+                                    <lightning-icon icon-name="utility:delete" alternative-text="delete" size="x-small"
+                                        title="large size" data-mode="delete" data-id={data.Id}
+                                        data-feedback={data.Feedback__c} onclick={openModal}></lightning-icon>
+                                    <lightning-icon icon-name="utility:edit_form" alternative-text="edit" size="x-small"
+                                        title="large size" data-mode="edit" data-id={data.Id}
+                                        data-feedback={data.Feedback__c} onclick={openModal}></lightning-icon>
+                                </span>
+                            </div>
+                            <hr>
+                        </div>
+                    </template>
+
+                </section>
+            </template>
+            <template lwc:else>
+                <div class="styleImageNoData">
+                    <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+                </div>
+                <p class="no-feedbacks">No Feedbacks Available</p>
+
+            </template>
+        </template>
+    </div>
+
+    <template lwc:if={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content modal" id="modal-content-id-2">
+                    <template lwc:if={isDeleteFeedback}>
+                        <div class="popup-text">
+                            <h3>Delete Feedback</h3>
+                            <h4 class="slds-var-m-bottom_large">Are you sure you want to delete this Feedback ?</h4>
+                        </div>
+                        <div class="buttons">
+                            <button class="slds-button slds-button_neutral cancel" onclick={closeModal}
+                                title="Cancel">No,
+                                cancel</button>
+                            <button type="submit" class="slds-button slds-button_brand confirm"
+                                style="background-color: indianred;;" onclick={handleDelete} title="OK">Yes,
+                                confirm</button>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <div class="popup-text" style="width: -webkit-fill-available;">
+                            <h3>Edit Feedback</h3>
+                            <form class="feedback-form">
+                                <lightning-textarea lwc:ref="feedbackInput" max-length="1500" name="feedback"
+                                    placeholder="Give you Feedback here..." onchange={habndleFeedbackChange}
+                                    variant="label-hidden" class="input" value={currentFeedback.Feedback__c}
+                                    required></lightning-textarea>
+                            </form>
+
+                        </div>
+                        <div class="buttons">
+                            <button class="slds-button slds-button_neutral cancel" onclick={closeModal}
+                                title="Cancel">No,
+                                cancel</button>
+                            <button type="submit" class="slds-button slds-button_brand confirm" onclick={handleEdit}
+                                title="OK">Yes, confirm</button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

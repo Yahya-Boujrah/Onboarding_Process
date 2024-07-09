@@ -1,0 +1,159 @@
+<template>
+    <lightning-layout vertical-align="stretch" multiple-rows="true" horizontal-align="center" class="x-large"
+        style="gap:1rem;">
+        <lightning-layout-item flexibility="auto,no-grow" class="custom-box">
+            <div class="task-container">
+                <div style="display: flex; align-items:center; justify-content:space-between; padding:1rem;">
+                    <h3 class="slds-text-heading_small section-title">To Do ({openTasksLength})</h3>
+                    <lightning-icon icon-name="utility:new" alternative-text="New" size="small" onclick={openModal}
+                        variant="success"></lightning-icon>
+
+                </div>
+                <div style="height: 500px; overflow-y: scroll;" id="Open" data-role="drop-target" ondrop={handleDrop}
+                    ondragenter={handleDragEnter} ondragover={handleDragOver} ondragleave={handleDragLeave}>
+                    <template if:true={taskNewList}>
+                        <template for:each={taskNewList} for:item="data">
+                            <div key={data.Id} class="slds-var-p-horizontal_x-large slds-m-vertical_x-small">
+                                <lightning-card draggable="true" id={data.Id} data-id={data.Id}
+                                    ondragstart={taskDragStart} ondragend={taskDragEnd} variant="Narrow"
+                                    title={data.Subject} onclick={goToRecordPage} icon-name="standard:today"
+                                    style="cursor: pointer;">
+                                    <!-- <span slot="actions" class="slds-var-m-around_large" style="border-radius: 10px; background-color:yellow; padding:8px" >
+                                Medium
+                            </span>
+                        -->
+                                    <!-- <lightning-formatted-url value={data.WhatId}
+                            label={data.AccountName} target="_blank"></lightning-formatted-url><br /> -->
+                                    <div class="slds-var-p-around_medium">
+                                        Due date : <lightning-formatted-date-time value={data.ActivityDate}
+                                            year="numeric" month="2-digit" day="2-digit" class="date-text">
+                                        </lightning-formatted-date-time>
+                                        <br>
+                                        Date Added : <lightning-formatted-date-time value={data.CreatedDate}
+                                            year="numeric" month="2-digit" day="2-digit" hour="2-digit" minute="2-digit"
+                                            hour12="true" class="date-text">
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </lightning-card>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item flexibility="auto,no-grow" class="custom-box">
+            <div class="task-container">
+                <div style="display: flex; align-items:center; justify-content:space-between; padding:1rem;">
+                    <h3 class="slds-text-heading_small section-title">In Progress ({taskInProgressLength})</h3>
+                </div>
+
+                <div id="InProgress" data-role="drop-target" ondrop={handleDrop}
+                    style="height: 500px; overflow-y: scroll;" ondragenter={handleDragEnter} ondragover={handleDragOver}
+                    ondragleave={handleDragLeave}>
+                    <template if:true={taskInProgressList}>
+                        <template for:each={taskInProgressList} for:item="data">
+                            <div key={data.Id} class="slds-var-p-horizontal_x-large slds-m-vertical_x-small">
+
+                                <lightning-card variant="Narrow" draggable="true" id={data.Id} data-id={data.Id}
+                                    ondragstart={taskDragStart} ondragend={taskDragEnd} title={data.Subject}
+                                    onclick={goToRecordPage} icon-name="custom:custom18" style="cursor: pointer;">
+                                    <!-- <lightning-formatted-url value={data.WhatId}
+                                                label={data.AccountName} target="_blank"></lightning-formatted-url><br /> -->
+                                    <div class="slds-var-p-around_medium">
+                                        Due date : <lightning-formatted-date-time value={data.ActivityDate}
+                                            year="numeric" month="2-digit" day="2-digit" class="date-text">
+                                        </lightning-formatted-date-time>
+                                        <br>
+                                        Date Added : <lightning-formatted-date-time value={data.CreatedDate}
+                                            year="numeric" month="2-digit" day="2-digit" hour="2-digit" minute="2-digit"
+                                            hour12="true" class="date-text">
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </lightning-card>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+
+            </div>
+
+        </lightning-layout-item>
+
+        <lightning-layout-item flexibility="auto,no-grow" class="custom-box">
+            <div class=" task-container">
+                <div style="display: flex; align-items:center; justify-content:space-between; padding:1rem;">
+                    <h3 class="slds-text-heading_small section-title">Done ({taskCompletedLength})</h3>
+                </div>
+
+                <div id="completed" style="height: 500px; overflow-y: scroll;" data-role="drop-target"
+                    ondrop={handleDrop} ondragenter={handleDragEnter} ondragover={handleDragOver}
+                    ondragleave={handleDragLeave}>
+                    <template if:true={taskCompletedList}>
+                        <template for:each={taskCompletedList} for:item="data">
+                            <div key={data.Id} class="slds-var-p-horizontal_x-large slds-m-vertical_x-small">
+                                <lightning-card variant="Narrow" draggable="true" id={data.Id} data-id={data.Id}
+                                    ondragstart={taskDragStart} ondragend={taskDragEnd} onclick={goToRecordPage}
+                                    title={data.Subject} icon-name="standard:resource_preference"
+                                    style="cursor: pointer;">
+                                    <!-- <lightning-formatted-url value={data.WhatId}
+                                                    label={data.AccountName} target="_blank"></lightning-formatted-url><br /> -->
+                                    <div class="slds-var-p-around_medium">
+                                        Due date : <lightning-formatted-date-time value={data.ActivityDate}
+                                            year="numeric" month="2-digit" day="2-digit" class="date-text">
+                                        </lightning-formatted-date-time>
+                                        <br>
+                                        Date Added : <lightning-formatted-date-time value={data.CreatedDate}
+                                            year="numeric" month="2-digit" day="2-digit" hour="2-digit" minute="2-digit"
+                                            hour12="true" class="date-text">
+                                        </lightning-formatted-date-time>
+                                    </div>
+
+                                </lightning-card>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template lwc:if={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__content modal" id="modal-content-id-1">
+                    <h3 class="modal-title ">Add new Task</h3>
+                    <form class="form" name="myForm" onsubmit={createTask}>
+                        <lightning-input class="input " label="Subject" name="subject" required
+                            onchange={handleSubjectChange}></lightning-input>
+                        <lightning-input class="input " type="date" label="Due date" name="date" required
+                            onchange={handleDatecChange}></lightning-input>
+                        <lightning-combobox class="" label="Status" name="status" required options={statusOptions}
+                            onchange={handleStatusChange} value={newTask.status}>
+                        </lightning-combobox>
+                        <lightning-combobox class="" label="Priority" name="priority" required=""
+                            options={priorityOptions} onchange={handlePrioChange} value={newTask.priority}>
+                        </lightning-combobox>
+                        <lightning-textarea name="description" label="Description"
+                            onchange={handleDescChange}></lightning-textarea>
+
+                        <div class="buttons">
+                            <button class="slds-button slds-button_neutral cancel" onclick={closeModal}
+                                title="Cancel">Cancel</button>
+                            <button type="submit" class="slds-button slds-button_brand confirm" title="OK">New</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

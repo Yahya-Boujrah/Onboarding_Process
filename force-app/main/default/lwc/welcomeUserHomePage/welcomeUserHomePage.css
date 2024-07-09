@@ -1,0 +1,180 @@
+.component {
+    scroll-behavior: smooth;
+    background-color: #f4f4f4;
+}
+
+.parallax {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 54vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.text {
+    /* top: 20rem; */
+    width: 70%;
+    text-align: center;
+    line-height: 1.1;
+    position: absolute;
+    font-size: 5.3rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    z-index: 1;
+}
+
+.parallax img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.sec {
+    display: flex;
+    align-items: center;
+    position: relative;
+    /* height: 82vh; */
+    background: #003329;
+    /* padding: 100px; */
+    width: 100%;
+    z-index: 100;
+    /* top: -100px; */
+}
+
+.sec h3 {
+    font-size: 3em;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.sec p {
+    font-size: 1em;
+    color: #fff;
+    font-weight: 300;
+    padding-right: 6rem;
+
+}
+
+.view1 {
+    flex: 1;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-left: 6rem;
+}
+
+.view2 {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.view2 img {
+    /* width: 500px; */
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.plant {
+    z-index: 2;
+}
+
+@media (width <=576px) {
+
+    .text {
+        font-size: 1.5rem;
+        width: 85%;
+    }
+
+    .sec h3 {
+        font-size: 15px;
+    }
+
+    .sec p {
+        font-size: 9px;
+        padding-right: 0;
+    }
+
+    .view1 {
+        margin-left: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (576px < width <=768px) {
+
+    .text {
+        font-size: 2.5rem;
+    }
+
+    .view1 {
+        margin-left: 2rem;
+    }
+
+    .sec h3 {
+        font-size: 20px;
+    }
+
+    .sec p {
+        font-size: 10px;
+        padding-right: 0;
+    }
+
+    .view2 img {
+        margin-right: 3rem;
+    }
+
+}
+
+@media (768px < width <=992px) {
+    .text {
+        font-size: 3rem;
+    }
+
+    .view1 {
+        margin-left: 5rem;
+    }
+
+    .sec h3 {
+        font-size: 1.5rem;
+    }
+
+    .sec p {
+        padding-right: 0;
+
+    }
+
+}
+
+@media (992px < width <=1200px) {
+
+    .text {
+        font-size: 4rem;
+    }
+
+    .sec h3 {
+        font-size: 1.5rem;
+    }
+
+    .view1 {
+        margin-left: 4rem;
+    }
+
+    .sec p {
+        font-size: 0.8rem;
+        padding-right: 3rem;
+
+    }
+}
+
+@media (1200px < width <=1400px) {
+    .text {
+        font-size: 4.8rem;
+    }
+}

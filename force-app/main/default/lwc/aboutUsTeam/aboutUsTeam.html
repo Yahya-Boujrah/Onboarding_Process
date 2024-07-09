@@ -1,0 +1,60 @@
+<template>
+    <div class="component-title">
+        OUR TEAM
+    </div>
+    <div class="section" style={backgroundImageStyle}>
+        <div class="controls">
+            <input type="text" placeholder="Search..." oninput={handleSearch}>
+            <select onchange={handleRoleChange}>
+                <option value="">All Roles</option>
+                <option value="Technical Consultant">Technical Consultant</option>
+                <option value="FatimaEzzahra Mounhij">Manager</option>
+                <option value="Mohamed ElQandili">Team Leader</option>
+                <option value="Yassine ElQandili">CTO</option>
+                <option value="Sophia Koukab">CEO</option>
+            </select>
+        </div>
+        <div class="container">
+            <template if:true={paginatedTeamMembers}>
+                <template for:each={paginatedTeamMembers} for:item="member">
+                    <div key={member.Id} class="our-team">
+                        <div class="picture">
+                            <img class="img-fluid" src={member.pictureUrl} data-salutation={member.Salutation} onerror={handlePicError}>
+                        </div>
+                        <div class="team-content">
+                            <span class="h3">{member.FirstName}</span>
+                            <span class="h3">{member.LastName}</span>
+                            <span class="h2">{member.role}</span>
+                        </div>
+                        <ul class="social">
+                            <li data-url={member.LinkedInAccount__c} onclick={redirectToLinkedin} style="margin: 5px; cursor:pointer;">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="26" height="26" viewBox="0,0,256,256" style="fill:#000000;">
+                                    <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                        <g transform="scale(9.84615,9.84615)">
+                                            <path d="M21.125,0h-16.25c-2.69141,0 -4.875,2.18359 -4.875,4.875v16.25c0,2.69141 2.18359,4.875 4.875,4.875h16.25c2.69141,0 4.875,-2.18359 4.875,-4.875v-16.25c0,-2.69141 -2.18359,-4.875 -4.875,-4.875zM8.03906,22.07031h-4.03906l-0.02344,-12.09375h4.03906zM5.91797,8.39453h-0.02344c-1.32031,0 -2.17187,-0.91016 -2.17187,-2.04297c0,-1.16016 0.87891,-2.03906 2.22266,-2.03906c1.34375,0 2.16797,0.87891 2.19531,2.03906c0,1.13281 -0.85547,2.04297 -2.22266,2.04297zM22.04297,22.07031h-4.07422v-6.57031c0,-1.58984 -0.42187,-2.67187 -1.84375,-2.67187c-1.08594,0 -1.67187,0.73047 -1.95312,1.4375c-0.10547,0.25391 -0.13281,0.60156 -0.13281,0.95703v6.84766h-4.09375l-0.02344,-12.09375h4.09375l0.02344,1.70703c0.52344,-0.80859 1.39453,-1.95312 3.48047,-1.95312c2.58594,0 4.51953,1.6875 4.51953,5.31641v7.02344z"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                           </li>
+                        </ul>
+                    </div>
+                </template>
+            </template>
+            <template if:true={error}>
+                <p>Error loading team members</p>
+            </template>
+        </div>
+        <div class="pagination">
+            <button onclick={previousPage} disabled={isFirstPage}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" />
+                  </svg>
+            </button>
+            <button onclick={nextPage} disabled={isLastPage}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" />
+                  </svg>
+            </button>
+        </div>
+    </div>
+</template>

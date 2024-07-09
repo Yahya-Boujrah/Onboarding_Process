@@ -1,0 +1,101 @@
+<template>
+    <section class="event-detail">
+
+        <template lwc:if={isEventDataLoaded}>
+            <article class="main">
+                <div class="left">
+                    <div class="about">
+                        <h3 class="title">ABOUT EVENT</h3>
+                        <p class="infos">{eventData.Description}</p>
+
+                    </div>
+                    <div class="detail">
+                        <h3 class="title">DETAIL EVENT</h3>
+                        <div class="infos">
+
+                            Subject : <span style="">{eventData.Subject}</span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="event-details">
+                        <lightning-icon icon-name="utility:clock" size="small" alternative-text="Time"></lightning-icon>
+                        <span style="font-size: 11px;">
+                            Start : <lightning-formatted-date-time value={eventData.StartDateTime} year="numeric"
+                                month="short" day="numeric" hour="2-digit" minute="2-digit" hour12="true"
+                                class="date-text">
+                            </lightning-formatted-date-time>
+                            <br>
+                            End : <lightning-formatted-date-time value={eventData.EndDateTime} year="numeric"
+                                month="short" day="numeric" hour="2-digit" minute="2-digit" hour12="true"
+                                class="date-text">
+                            </lightning-formatted-date-time>
+                        </span>
+                    </div>
+                    <div class="event-details">
+                        <lightning-icon icon-name="utility:checkin" size="small"
+                            alternative-text="Location"></lightning-icon>
+                        <span style="font-size: 11px;">
+                            {eventData.Location}
+                        </span>
+                    </div>
+                    <div class="event-details">
+                        <lightning-icon icon-name="utility:user" size="small" alternative-text="User"></lightning-icon>
+                        <span style="font-size: 11px;">
+                            {eventData.Who.Name}
+                        </span>
+                    </div>
+
+
+                </div>
+            </article>
+
+
+            <!-- <div class="main">
+                <h2>{eventData.Subject}</h2>
+                <p>
+                    {eventData.Description}
+                </p>
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:clock" size="small" alternative-text="Time"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        Start : <lightning-formatted-date-time value={eventData.StartDateTime} year="numeric"
+                            month="short" day="numeric" hour="2-digit" minute="2-digit" hour12="true" class="date-text">
+                        </lightning-formatted-date-time>
+                        <br>
+                        End : <lightning-formatted-date-time value={eventData.EndDateTime} year="numeric" month="short"
+                            day="numeric" hour="2-digit" minute="2-digit" hour12="true" class="date-text">
+                        </lightning-formatted-date-time>
+                    </span>
+                </div>
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:checkin" size="small"
+                        alternative-text="Location"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        {eventData.Location}
+                    </span>
+                </div>
+                <div class="event-details">
+                    <lightning-icon icon-name="utility:user" size="small" alternative-text="User"></lightning-icon>
+                    <span style="font-size: 11px;">
+                        {eventData.Who.Name}
+                    </span>
+                </div>
+            </div> -->
+
+            <div class="feedback-form">
+                <c-feedback-form training-module-id={trainingModuleId}></c-feedback-form>
+
+            </div>
+
+        </template>
+        <template lwc:else>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+
+        </template>
+
+    </section>
+
+</template>

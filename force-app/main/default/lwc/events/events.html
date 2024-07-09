@@ -1,0 +1,37 @@
+<template>
+    <template lwc:if={eventsNotExist}>
+        
+    </template>
+
+    <template lwc:else>
+
+        <div class="main">
+            <h3 class="title">
+                {title}
+            </h3>
+            <!-- <div class="description">
+            Sample text. Click to select the text box. Click again or double click to start editing the text.
+        </div> -->
+
+            <div class="aboutUs">
+                <template for:each={events} for:item="event">
+                    <div key={event.Id} class="oneElement" data-id={event.Id} onclick={handleClick}>
+                        <div class="icon">
+                            <lightning-icon icon-name="utility:event" size="small" alternative-text="Event"
+                                class="white-utility-icon"></lightning-icon>
+                        </div>
+                        <h3 class="subject">{event.Subject}</h3>
+                        <span class="startDate"><b>Start Date:</b> {event.StartDateTime}</span>
+                        <span class="startDate">At: {event.StartTime}</span>
+                    </div>
+                </template>
+            </div>
+            <button onclick={handleRedirect}>All Events</button>
+            <!-- 
+            <div>
+                <img class="astro" src={astro}>
+
+            </div> -->
+        </div>
+    </template>
+</template>

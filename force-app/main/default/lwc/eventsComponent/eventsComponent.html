@@ -1,0 +1,43 @@
+<template>
+    <section class="header">
+        <div class="filter">
+            <span onclick={changeFilter} data-id="all" class="filter-item active">All</span>
+            <span onclick={changeFilter} data-id="planned" class="filter-item">Planned</span>
+            <span onclick={changeFilter} data-id="completed" class="filter-item">Completed</span>
+        </div>
+        <div class="button">
+            <lightning-button variant="brand" label="View Calendar" onclick={handleRedirect}></lightning-button>
+        </div>
+    </section>
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template lwc:else>
+
+        <template lwc:if={eventsExist}>
+            <section class="events">
+                <template for:each={eventRecords} for:item="data">
+                    <c-event-card key={data.Id} event={data}></c-event-card>
+                </template>
+            </section>
+
+            <div class="slds-var-m-top_xx-large">
+                <c-paginator page-number={eventsPageNumber} page-size={events.pageSize}
+                    total-item-count={events.totalItemCount} onprevious={handlePreviousPage}
+                    onnext={handleNextPage}></c-paginator>
+            </div>
+        </template>
+        <template lwc:else>
+            <div class="styleImageNoData">
+                <img src={noDataFound} alt="No Data Found" title="No Data Found" />
+            </div>
+            <p class="no-events">No Events Available</p>
+
+        </template>
+
+
+    </template>
+
+
+</template>

@@ -1,0 +1,87 @@
+<template>
+
+    <div class="container">
+        <h3 class="title">
+            {title}
+        </h3>
+        <div class="timeline">
+
+            <div class="line"></div>
+            <template lwc:if={tasksExist}>
+                <template for:each={tasksToDo} for:item="task">
+                    <div key={task.id} class="section">
+                        <div class="ag-courses-item_bg"></div>
+                        <div class="icon">
+                            <lightning-icon icon-name="utility:task" size="small" alternative-text="Event"
+                                class="white-utility-icon"></lightning-icon>
+                        </div>
+                        <div class="content" data-id={task.id} onclick={handleRedirectTask}>
+                            <h3 class="subject">
+                                {task.subject}
+                            </h3>
+                            <div class="date-detail">
+                                <lightning-icon icon-name="utility:clock" size="small" alternative-text="clock"
+                                    class="green-utility-icon"></lightning-icon>
+                                <p class="date">
+                                    {task.activityDate}
+                                </p>
+                            </div>
+                            <div class="date-detail">
+                                <lightning-icon icon-name="utility:priority" size="small" alternative-text="clock"
+                                    class="green-utility-icon"></lightning-icon>
+                                <p class="date">
+                                    {task.priority}
+                                </p>
+                            </div>
+
+
+                            <p class="description">
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio saepe itaque inventore
+                                est. Quas illum error suscipit? Ex deleniti reiciendis accusamus, suscipit nesciunt
+                                ullam porro nostrum ducimus rerum, ad possimus.
+                            </p>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template lwc:else>
+                <div key={task.id} class="section">
+                    <div class="ag-courses-item_bg" style="transform:none"></div>
+                    <div class="icon">
+                        <lightning-icon icon-name="utility:success" size="small" alternative-text="Event"
+                            class="white-utility-icon"></lightning-icon>
+                    </div>
+                    <div class="content" >
+                        <h3 class="subject">
+                            No Tasks For Today
+                        </h3>
+                        <!-- <div class="date-detail">
+                            <lightning-icon icon-name="utility:clock" size="small" alternative-text="clock"
+                                class="green-utility-icon"></lightning-icon>
+                            <p class="date">
+                                {task.activityDate}
+                            </p>
+                        </div> -->
+                        <div class="date-detail">
+                            <!-- <lightning-icon icon-name="utility:priority" size="small" alternative-text="clock"
+                                class="green-utility-icon"></lightning-icon>
+                            <p class="date">
+                                {task.priority}
+                            </p> -->
+                            You have No Assigned Tasks for today, Try creating one!
+                        </div>                    
+
+                        <!-- <p class="description">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio saepe itaque inventore
+                            est. Quas illum error suscipit? Ex deleniti reiciendis accusamus, suscipit nesciunt
+                            ullam porro nostrum ducimus rerum, ad possimus.
+                        </p> -->
+                    </div>
+                </div>
+            </template>
+            <div class="end-button-container">
+                <button class="end-button" onclick={handleButtonClick}>All Tasks</button>
+            </div>
+        </div>
+    </div>
+</template>

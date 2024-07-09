@@ -1,0 +1,40 @@
+<template>
+  <div class="our-team">
+
+    <h3 class="title">{title}</h3>
+    <div class="wrapper">
+      <i data-direction="left" onclick={handleArrowClick}>
+        <!-- <img src={leftIcon} alt="left arrow" class="arrow"> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+          <path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" />
+        </svg>
+
+      </i>
+      <ul class="carousel">
+        <template for:each={teamMembers} for:item="member" for:index="index">
+          <li class="card" key={member.id}>
+            <div class="img"><img src={member.pictureUrl} draggable="false" onerror={handlePicError}></div>
+            <!-- <lightning-formatted-url value={member.LinkedInAccount__c} tooltip="Use https://domain-name"
+              label={member.Name} target="_blank" class="name"></lightning-formatted-url> -->
+            <template lwc:if={member.LinkedInAccount__c}>
+              <lightning-formatted-url value={member.LinkedInAccount__c} tooltip="Use https://domain-name"
+                label={member.Name} target="_blank" class="name">
+              </lightning-formatted-url>
+            </template>
+            <template lwc:else>
+              <span class="name" style="color: black;">{member.Name}</span>
+            </template>
+            <span>{member.Level__c}</span>
+          </li>
+        </template>
+      </ul>
+      <i data-direction="right" onclick={handleArrowClick}>
+        <!-- <img src={rightIcon} alt="right arrow" class="arrow"> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+          <path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" />
+        </svg>
+      </i>
+    </div>
+
+  </div>
+</template>
